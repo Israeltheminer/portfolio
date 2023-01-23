@@ -1,11 +1,27 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
+import { motion, useAnimation } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { useEffect } from "react"
+import Typewriter from "typewriter-effect"
+import Link from "next/link"
 
-const inter = Inter({ subsets: ['latin'] })
+const visibilityScaleVariant = {
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.5, delay: 0.4 } },
+  hidden: { opacity: 0, scale: 0 },
+}
 
-export default function Home() {
+export default function Home () {
+  const control = useAnimation()
+  const [section1, section1InView] = useInView()
+  useEffect(() => {
+    if (section1InView) {
+      control.start("visible")
+    } else {
+      control.start("hidden")
+    }
+  }, [control, section1InView])
   return (
     <>
       <Head>
@@ -14,110 +30,117 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+      <div>
+        <main className={ styles.main }>
+          <section className={ [styles.section, "relative overflow-hidden pt-32"].join(" ") }>
+            <Image src="/futuristic_936.png" alt="bg" fill={ true } className="opacity-40" style={ { objectFit: "cover" } } quality={ 100 } priority={ true } />
+            <div className="flex justify-between items-start gap-4 px-[6%] relative">
+              <div className='min-w-[300px] max-w-[405px] z-10'>
+                <motion.h1 className={ [styles.typing_header, 'text-[60px] font-semibold leading-none mb-6 tracking-wide'].join(" ") } id="name_header" initial={ { height: "60px" } } animate={ { height: "120px" } } transition={ { delay: 6.3, duration: 1.5 } }>
+                  <Typewriter
+                    options={ {
+                      cursor: "_",
+                      deleteSpeed: 120
+                    } }
+                    onInit={ (typewriter) => {
+                      typewriter
+                        .typeString("Hello")
+                        .pauseFor(1200)
+                        .deleteAll()
+                        .typeString("I'm Israel.")
+                        .pauseFor(1500)
+                        .deleteAll()
+                        .typeString("Welcome to my website.")
+                        .pauseFor(9000)
+                        .deleteAll()
+                        .typeString("Hello, I'm Israel Iyanda.")
+                        .start()
+                    } }
+                  />
+                </motion.h1>
+                <motion.p ref={ section1 } variants={ visibilityScaleVariant } initial="hidden" animate={ control } className='text-sm text-[#edf7f8] opacity-90 leading-relaxed'>I&apos;m a JavaScript and TypeScript wizard. My skills span both front-end and back-end development, allowing me to create seamless experiences for users and making your project a success. I hope you find something here that sparks your interest. Let&apos;s geek out over code together!</motion.p>
+                <ul className={ [styles.linklist, 'space-y-4 mt-8 flex flex-col gap-4'].join(" ") }>
+                  <li className='text-sm flex gap-8'>
+                    <span>00 - Home</span>
+                    <span>01 - Works</span>
+                  </li>
+                  <li className='text-sm flex gap-8'>
+                    <span>02 - Contact</span>
+                    <span>03 - Blog</span>
+                  </li>
+                </ul>
+              </div>
+              <div className={ styles.container }>
+                <div className={ [styles.card, "ml-auto mt-10 border-[2px] border-[#59a698]"].join(" ") }>
+                  <div className="relative bottom-[40px] flex items-center flex-col">
+                    <div className={ ["relative border-[2px] border-[#59a698]", styles.circle].join(" ") }>
+                      <div className={ ['relative bg-[#0c0c17] w-20 h-20 overflow-hidden rounded-full flex items-center justify-center'].join(" ") }>
+                        <Image src="/profile.png" alt="profile-picture" fill={ true } style={ { objectFit: "cover" } } className="z-20" />
+                      </div>
+                    </div>
+                    <Link href="https://github.com/israeltheminer">
+                      <p className="text-sm relative top-4 text-white hover:text-[#59a698] opacity-70 transition-color hover:opacity-100 hover:underline ease-in z-10">@israeltheminer</p></Link>
+                  </div>
+                  <div className="bg-gradient-to-r from-[#59a698] to-teal-400 h-12 px-2 py-2 overflow-hidden grid items-center">
+                    <motion.div className='flex items-center justify-around' initial={ { x: "300px" } } animate={ { x: -305 } } transition={ { duration: 10, repeat: Infinity } }>
+                      <div className="relative w-[72px] h-8">
+                        <Image src="/next.svg" alt="skills" fill={ true } />
+                      </div>
+                      <div className="relative w-12 h-8">
+                        <Image src="/react.svg" alt="skills" fill={ true } />
+                      </div>
+                      <div className="relative w-12 h-8">
+                        <Image src="/node.svg" alt="skills" fill={ true } />
+                      </div>
+                      <div className="relative w-9 h-8">
+                        <Image src="/typescript.svg" alt="skills" fill={ true } />
+                      </div>
+                    </motion.div>
+                  </div>
+                  <p className="text-center px-6 text-sm py-6 border-b border-[#59a698]">Fullstack Developer who loves building user-friendly, beautiful React and Node.js applications.</p>
+                  <div className="px-6 mt-4 relative z-10">
+                    <div className="flex justify-between items-center">
+                      <Link href="https://github.com/israeltheminer" target="_blank" rel="noopener noreferrer">
+                        <button className={ [styles.socialBtn, "rounded-3xl max-h-[42px] py-[6px] px-2 w-[118px] text-sm font-semibold opacity-90 hover:opacity-100 flex items-center gap-3"].join(" ") }>
+                          <Image src="/github.svg" alt="github" className="" width={ 28 } height={ 28 } />
+                          <span>GitHub</span>
+                        </button>
+                      </Link>
+                      <Link href="https://www.linkedin.com/in/israel-iyanda-8aab8a17b/" target="_blank" rel="noopener noreferrer">
+                        <button className={ [styles.socialBtn, "rounded-3xl max-h-[42px] py-2 px-3 w-[118px] text-sm font-semibold opacity-90 hover:opacity-100 flex items-center gap-3"].join(" ") }>
+                          <Image src="/linkedin.svg" alt="skills" className="" width={ 28 } height={ 28 } />
+                          <span>
+                            LinkedIn
+                          </span>
+                        </button>
+                      </Link>
+                    </div>
+                    <div className="flex justify-between items-center mt-4">
+                      <Link href="https://gitlab.com/israeltheminer" target="_blank" rel="noopener noreferrer">
+                        <button className={ [styles.socialBtn, "rounded-3xl max-h-[42px] py-2 px-3 w-[118px] text-sm font-semibold opacity-90 hover:opacity-100 flex items-center gap-3"].join(" ") }>
+                          <Image src="/gitlab.svg" alt="skills" className="" width={ 28 } height={ 28 } />
+                          <span>
+                            GitLab
+                          </span>
+                        </button>
+                      </Link>
+                      <Link href="https://twitter.com/israeltheminer" target="_blank" rel="noopener noreferrer">
+                        <button className={ [styles.socialBtn, "rounded-3xl max-h-[42px] py-2 px-3 w-[118px] text-sm font-semibold opacity-90 hover:opacity-100 flex items-center gap-3"].join(" ") }>
+                          <Image src="/twitter.svg" alt="skills" className="" width={ 28 } height={ 28 } />
+                          <span>
+                            Twitter
+                          </span>
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                  <div className={ styles.blob }></div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
     </>
   )
 }
